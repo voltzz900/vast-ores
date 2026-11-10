@@ -233,28 +233,6 @@ def handle(px, length=11, wood=0x6B4423):
     return px
 
 
-def tool_px(kind, colour):
-    px = blank()
-    if kind == "sword":
-        for i in range(4, 15):
-            px[15 - i][i] = rgb(colour, 1.25); px[16 - i][i] = rgb(colour, 0.85)
-        for x, y in ((3, 10), (4, 11), (5, 12), (2, 9), (6, 13)):
-            px[y][x] = rgb(0x6B4423, 0.9)
-        for i in range(0, 4):
-            px[15 - i][i] = rgb(0x6B4423, 1.1)
-        return px
-    handle(px)
-    if kind == "pickaxe":
-        cells = {(x, 2) for x in range(4, 13)} | {(3, 3), (13, 3), (2, 4), (14, 4), (2, 5), (14, 5)} | {(x, 3) for x in range(5, 12)}
-    elif kind == "axe":
-        cells = {(x, y) for x in range(8, 13) for y in range(2, 8) if not (x == 12 and y in (2, 7))}
-    else:  # shovel
-        cells = {(x, y) for x in range(10, 14) for y in range(2, 6)} | {(11, 6), (12, 6)}
-    for x, y in cells:
-        px[y][x] = rgb(colour, 1.2 if y <= 3 else 0.95)
-    return px
-
-
 def hammer_px():
     px = handle(blank())
     for x in range(7, 15):
@@ -288,14 +266,20 @@ class Mod:
         self.lang_en[f"{kind}.{self.ns}.{name}"] = en
         self.lang_pt[f"{kind}.{self.ns}.{name}"] = pt
 
-    def item(self, name, template, pixels, en, pt, handheld=False, **extra):
+    def item(self, name, template, pixels, en, pt, handheld=False, texture=None, tint=None, **extra):
+        """`pixels` is drawn into the mod; `texture` instead names one the game has (never copied), `tint` colours it."""
         ns = self.ns
         self.items.append(name)
         self.put(f"data/{ns}/horizon/item/{name}.json", {"template": template, **extra})
         parent = "minecraft:item/handheld" if handheld else "minecraft:item/generated"
-        self.put(f"assets/{ns}/models/item/{name}.json", {"parent": parent, "textures": {"layer0": f"{ns}:item/{name}"}})
-        self.put(f"assets/{ns}/items/{name}.json", {"model": {"type": "minecraft:model", "model": f"{ns}:item/{name}"}})
-        self.put(f"assets/{ns}/textures/item/{name}.png", png(pixels))
+        layer = texture or f"{ns}:item/{name}"
+        self.put(f"assets/{ns}/models/item/{name}.json", {"parent": parent, "textures": {"layer0": layer}})
+        model = {"type": "minecraft:model", "model": f"{ns}:item/{name}"}
+        if tint is not None:
+            model["tints"] = [{"type": "minecraft:constant", "value": tint}]
+        self.put(f"assets/{ns}/items/{name}.json", {"model": model})
+        if texture is None:
+            self.put(f"assets/{ns}/textures/item/{name}.png", png(pixels))
         self.names("item", name, en, pt)
 
     def block(self, name, template, pixels, en, pt, drop=None, tier=None):
@@ -580,8 +564,9 @@ def vastdepths(out):
                 components["minecraft:tool"] = {"rules": [
                     {"blocks": deny, "correct_for_drops": False},
                     {"blocks": mine, "correct_for_drops": True, "speed": speed}], "damage_per_block": 1}
-            m.item(f"{mat}_{kind}", f"minecraft:netherite_{kind}", tool_px(kind, colour), f"{en} {kind.title()}", f"{pt_kind} de {pt}",
-                   handheld=True, components=components)
+            # The player's own iron tool texture, tinted whole (head and handle) in the metal's colour.
+            m.item(f"{mat}_{kind}", f"minecraft:netherite_{kind}", None, f"{en} {kind.title()}", f"{pt_kind} de {pt}",
+                   handheld=True, texture=f"minecraft:item/iron_{kind}", tint=colour, components=components)
             shapes = {"pickaxe": ["III", " S ", " S "], "axe": ["II", "IS", " S"], "shovel": ["I", "S", "S"], "sword": ["I", "I", "S"]}
             m.recipe(f"tool/{mat}_{kind}", {"type": "minecraft:crafting_shaped", "key": {"I": m.id(f"{mat}_ingot"), "S": "minecraft:blaze_rod"},
                                             "pattern": shapes[kind], "result": {"id": m.id(f"{mat}_{kind}")}})
