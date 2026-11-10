@@ -60,6 +60,14 @@ SUPER = [
     ("infernium", 0xE0562A, "netherrack", "nether", (2, 3, 8, 40), "Infernium", "Infernium", 14.0, 6000),
     ("voidium", 0xC23CE6, "end_stone", "end", (2, 3, 10, 80), "Voidium", "Voidium", 16.0, 8000),
 ]
+# Tool stats per tier: (attack damage added to the player's 1, attack speed modifier) for each kind.
+# Netherite is sword 7/-2.4, axe 9/-3.0, pickaxe 5/-2.8, shovel 5.5/-3.0; each tier hits harder and a
+# little faster, up to a voidium sword that takes most mobs in one hit.
+TOOL_STATS = {
+    "stellarite": {"sword": (11.0, -2.4), "axe": (13.0, -3.0), "pickaxe": (7.0, -2.8), "shovel": (7.5, -3.0)},
+    "infernium": {"sword": (17.0, -2.2), "axe": (19.0, -2.9), "pickaxe": (10.0, -2.7), "shovel": (10.5, -2.9)},
+    "voidium": {"sword": (29.0, -2.0), "axe": (31.0, -2.8), "pickaxe": (15.0, -2.6), "shovel": (15.5, -2.8)},
+}
 SUPER_ALLOYS = [
     ("infernium_stellarite_alloy", 0x8FD08A, ("infernium", "stellarite"), "Infernium-Stellarite Alloy", "Liga de Infernium-Estelarita"),
     ("voidium_stellarite_alloy", 0xD97C9A, ("voidium", "stellarite"), "Voidium-Stellarite Alloy", "Liga de Voidium-Estelarita"),
@@ -459,8 +467,8 @@ def veins(ns, mat):
     return _config[ns][mat]
 
 
-def manifest(mod_id, name, description):
-    return (f'id = "{mod_id}"\nname = "{name}"\nversion = "0.2.0"\ndescription = "{description}"\n'
+def manifest(mod_id, name, description, version="0.2.0"):
+    return (f'id = "{mod_id}"\nname = "{name}"\nversion = "{version}"\ndescription = "{description}"\n'
             'authors = ["voltzz900"]\napi = "0.2"\nside = "both"\ncapabilities = ["registries"]\n')
 
 
@@ -555,11 +563,17 @@ def vastdepths(out):
         for source in (name, f"raw_{mat}"):
             m.cook(f"{mat}_ingot_from_{source}", m.id(source), m.id(f"{mat}_ingot"), 2.0)
         m.parts(mat, colour, en, pt, m.id(f"{mat}_ingot"), hammer, dust_source=m.id(f"raw_{mat}"))
-        # Tools: the template's look and attack, our own mining tier, speed and durability.
+        # Tools: our own mining tier, speed, durability and attack; the template gives the rest.
         deny = f"#vastdepths:incorrect_for_{mat}_tool"
         for kind, mine, pt_kind in (("pickaxe", "#minecraft:mineable/pickaxe", "Picareta"), ("axe", "#minecraft:mineable/axe", "Machado"),
                                     ("shovel", "#minecraft:mineable/shovel", "Pá"), ("sword", None, "Espada")):
-            components = {"minecraft:max_damage": durability, "!minecraft:repairable": {}}
+            damage, attack_speed = TOOL_STATS[mat][kind]
+            components = {"minecraft:max_damage": durability, "!minecraft:repairable": {},
+                          "minecraft:attribute_modifiers": [
+                              {"type": "minecraft:attack_damage", "id": "minecraft:base_attack_damage",
+                               "amount": damage, "operation": "add_value", "slot": "mainhand"},
+                              {"type": "minecraft:attack_speed", "id": "minecraft:base_attack_speed",
+                               "amount": attack_speed, "operation": "add_value", "slot": "mainhand"}]}
             if mine:
                 components["minecraft:tool"] = {"rules": [
                     {"blocks": deny, "correct_for_drops": False},
@@ -580,7 +594,8 @@ def vastdepths(out):
                                         "result": {"count": 2, "id": m.id(f"{mat}_ingot")}})
 
     m.write(out, manifest("vastdepths", "Vast Depths",
-                          "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores."),
+                          "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores.",
+                          version="0.2.1"),
             "stellarite_ingot", "Vast Depths")
 
 
