@@ -1,6 +1,6 @@
 # Registry page: Vast Ores
 
-- **File:** `vastores-0.2.0.hmod` (release v0.2.0)
+- **File:** `vastores-0.4.0.hmod` (release v0.4.0)
 - **Icon:** `icons/vastores.png`
 - **Name:** Vast Ores
 - **Summary:** Ten metals, three gems and nine alloys with dusts, plates, gears, rods and an ore hammer, generated in the overworld.
@@ -22,4 +22,4 @@ A content mod: data only, nothing to build.
 - Ores generate in the overworld, with a second, richer layer below y 0 for players who dig deep. Only new chunks get them.
 - `c:` convention tags (`c:ingots/tin`, `c:dusts/bronze`...) so other mods' recipes can use them.
 
-Every texture is drawn by code in the repository. Inspired by AllTheOres by the All The Mods team; a clean-room work with no code, data or art from it, not affiliated with or endorsed by All The Mods.
+Every texture is hand-drawn pixel art made in the repository. Inspired by AllTheOres by the All The Mods team; a clean-room work with no code, data or art from it, not affiliated with or endorsed by All The Mods.

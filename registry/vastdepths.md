@@ -1,6 +1,6 @@
 # Registry page: Vast Depths
 
-- **File:** `vastdepths-0.3.0.hmod` (release v0.3.0)
+- **File:** `vastdepths-0.4.0.hmod` (release v0.4.0)
 - **Icon:** `icons/vastdepths.png`
 - **Name:** Vast Depths
 - **Summary:** Stellarite, infernium and voidium: end-game metals from the deep overworld, the Nether and the End, with tools and alloys. Needs Vast Ores.
@@ -21,7 +21,7 @@ A content mod: data only, nothing to build. **Needs Vast Ores** (its ore hammer 
 | Voidium | the End, in end stone | infernium |
 
 - Each metal has raw ore, raw block, ingot, nugget, block, dust, plate, gear and rod.
-- A pickaxe, axe, shovel and sword of each (ingots and blaze rods), and a full armour set (ingots). All of it is unbreakable and stronger at each tier. It uses the game's own iron look, tinted in the metal's colour.
+- A pickaxe, axe, shovel and sword of each (ingots and blaze rods), and a full armour set (ingots). All of it is unbreakable and stronger at each tier. Each has its own hand-drawn look, in the hand and worn.
 
 | Tier | Sword | Axe | Mining speed | Armour (full set) | Toughness (full set) |
 | --- | --- | --- | --- | --- | --- |
