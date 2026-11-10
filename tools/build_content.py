@@ -570,12 +570,12 @@ def vastdepths(out):
         for source in (name, f"raw_{mat}"):
             m.cook(f"{mat}_ingot_from_{source}", m.id(source), m.id(f"{mat}_ingot"), 2.0)
         m.parts(mat, colour, en, pt, m.id(f"{mat}_ingot"), hammer, dust_source=m.id(f"raw_{mat}"))
-        # Tools: our own mining tier, speed and attack; unbreakable, as end-game gear is.
+        # Tools: our own mining tier, speed and attack; unbreakable (no max_damage: Horizon only takes component types a vanilla item has), as end-game gear is.
         deny = f"#vastdepths:incorrect_for_{mat}_tool"
         for kind, mine, pt_kind in (("pickaxe", "#minecraft:mineable/pickaxe", "Picareta"), ("axe", "#minecraft:mineable/axe", "Machado"),
                                     ("shovel", "#minecraft:mineable/shovel", "Pá"), ("sword", None, "Espada")):
             damage, attack_speed = TOOL_STATS[mat][kind]
-            components = {"minecraft:unbreakable": {}, "!minecraft:repairable": {},
+            components = {"!minecraft:max_damage": {}, "!minecraft:damage": {}, "!minecraft:repairable": {},
                           "minecraft:attribute_modifiers": [
                               {"type": "minecraft:attack_damage", "id": "minecraft:base_attack_damage",
                                "amount": damage, "operation": "add_value", "slot": "mainhand"},
@@ -608,7 +608,7 @@ def vastdepths(out):
                 return {"type": f"minecraft:{kind}", "id": f"minecraft:armor.{piece}", "amount": amount,
                         "operation": "add_value", "slot": slot}
             components = {
-                "minecraft:unbreakable": {}, "!minecraft:repairable": {},
+                "!minecraft:max_damage": {}, "!minecraft:damage": {}, "!minecraft:repairable": {},
                 "minecraft:equippable": {"slot": slot, "asset_id": m.id(mat),
                                          "equip_sound": "minecraft:item.armor.equip_netherite"},
                 "minecraft:attribute_modifiers": [modifier("armor", float(armor)),
@@ -629,7 +629,7 @@ def vastdepths(out):
 
     m.write(out, manifest("vastdepths", "Vast Depths",
                           "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores.",
-                          version="0.3.0"),
+                          version="0.3.1"),
             "stellarite_ingot", "Vast Depths")
 
 
