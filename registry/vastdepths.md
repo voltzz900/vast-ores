@@ -1,6 +1,6 @@
 # Registry page: Vast Depths
 
-- **File:** `vastdepths-0.2.1.hmod` (release v0.2.1)
+- **File:** `vastdepths-0.3.0.hmod` (release v0.3.0)
 - **Icon:** `icons/vastdepths.png`
 - **Name:** Vast Depths
 - **Summary:** Stellarite, infernium and voidium: end-game metals from the deep overworld, the Nether and the End, with tools and alloys. Needs Vast Ores.
@@ -21,14 +21,15 @@ A content mod: data only, nothing to build. **Needs Vast Ores** (its ore hammer 
 | Voidium | the End, in end stone | infernium |
 
 - Each metal has raw ore, raw block, ingot, nugget, block, dust, plate, gear and rod.
-- A pickaxe, axe, shovel and sword of each (ingots and blaze rods), stronger at each tier. They use the game's own iron tool look, tinted in the metal's colour.
+- A pickaxe, axe, shovel and sword of each (ingots and blaze rods), and a full armour set (ingots). All of it is unbreakable and stronger at each tier. It uses the game's own iron look, tinted in the metal's colour.
 
-| Tier | Sword damage | Axe damage | Mining speed | Durability |
-| --- | --- | --- | --- | --- |
-| Netherite (for comparison) | 8 | 10 | 9 | 2031 |
-| Stellarite | 12 | 14 | 12 | 4000 |
-| Infernium | 18 | 20 | 14 | 6000 |
-| Voidium | 30 | 32 | 16 | 8000 |
+| Tier | Sword | Axe | Mining speed | Armour (full set) | Toughness (full set) |
+| --- | --- | --- | --- | --- | --- |
+| Netherite (for comparison) | 8 | 10 | 9 | 20 | 12 |
+| Stellarite | 12 | 14 | 12 | 24 | 16 |
+| Infernium | 18 | 20 | 14 | 28 | 24 |
+| Voidium | 30 | 32 | 16 | 34 | 32 |
+
 - Three alloys, each from one ingot of two metals and a netherite ingot.
 
 Inspired by Allthemodium by the All The Mods team; a clean-room work with no code, data or art from it, not affiliated with or endorsed by All The Mods.

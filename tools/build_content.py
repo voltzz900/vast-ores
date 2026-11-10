@@ -54,7 +54,7 @@ VANILLA = [
 ]
 
 # The top tier: one ore each, in a harder place, each needing the tier below to mine.
-# name, colour, base, dimension, (count, size, min y, max y), english, portuguese, mining speed, durability
+# name, colour, base, dimension, (count, size, min y, max y), english, portuguese, mining speed, durability (unused: the gear is unbreakable)
 SUPER = [
     ("stellarite", 0xF0B33A, "deepslate", "overworld", (2, 4, -64, -40), "Stellarite", "Estelarita", 12.0, 4000),
     ("infernium", 0xE0562A, "netherrack", "nether", (2, 3, 8, 40), "Infernium", "Infernium", 14.0, 6000),
@@ -67,6 +67,13 @@ TOOL_STATS = {
     "stellarite": {"sword": (11.0, -2.4), "axe": (13.0, -3.0), "pickaxe": (7.0, -2.8), "shovel": (7.5, -3.0)},
     "infernium": {"sword": (17.0, -2.2), "axe": (19.0, -2.9), "pickaxe": (10.0, -2.7), "shovel": (10.5, -2.9)},
     "voidium": {"sword": (29.0, -2.0), "axe": (31.0, -2.8), "pickaxe": (15.0, -2.6), "shovel": (15.5, -2.8)},
+}
+# Armour per tier: (helmet, chestplate, leggings, boots armour points, toughness per piece, knockback resistance
+# per piece). Netherite is 3/8/6/3, 3, 0.1.
+ARMOR_STATS = {
+    "stellarite": ((4, 9, 7, 4), 4.0, 0.15),
+    "infernium": ((5, 10, 8, 5), 6.0, 0.2),
+    "voidium": ((6, 12, 10, 6), 8.0, 0.25),
 }
 SUPER_ALLOYS = [
     ("infernium_stellarite_alloy", 0x8FD08A, ("infernium", "stellarite"), "Infernium-Stellarite Alloy", "Liga de Infernium-Estelarita"),
@@ -544,7 +551,7 @@ def vastdepths(out):
     }
     # Each tier mines the next: netherite mines stellarite, stellarite infernium, infernium voidium.
     below = {"stellarite": [], "infernium": [], "voidium": ["stellarite"]}
-    for mat, colour, base, dim, gen, en, pt, speed, durability in SUPER:
+    for mat, colour, base, dim, gen, en, pt, speed, _durability in SUPER:
         seed = sum(map(ord, mat))
         m.ingot_family(mat, colour, en, pt)
         m.item(f"raw_{mat}", "minecraft:raw_gold", shape(colour, raw_cells(seed), light=1.2, dark=0.7), f"Raw {en}", f"{pt} Bruto")
@@ -563,12 +570,12 @@ def vastdepths(out):
         for source in (name, f"raw_{mat}"):
             m.cook(f"{mat}_ingot_from_{source}", m.id(source), m.id(f"{mat}_ingot"), 2.0)
         m.parts(mat, colour, en, pt, m.id(f"{mat}_ingot"), hammer, dust_source=m.id(f"raw_{mat}"))
-        # Tools: our own mining tier, speed, durability and attack; the template gives the rest.
+        # Tools: our own mining tier, speed and attack; unbreakable, as end-game gear is.
         deny = f"#vastdepths:incorrect_for_{mat}_tool"
         for kind, mine, pt_kind in (("pickaxe", "#minecraft:mineable/pickaxe", "Picareta"), ("axe", "#minecraft:mineable/axe", "Machado"),
                                     ("shovel", "#minecraft:mineable/shovel", "Pá"), ("sword", None, "Espada")):
             damage, attack_speed = TOOL_STATS[mat][kind]
-            components = {"minecraft:max_damage": durability, "!minecraft:repairable": {},
+            components = {"minecraft:unbreakable": {}, "!minecraft:repairable": {},
                           "minecraft:attribute_modifiers": [
                               {"type": "minecraft:attack_damage", "id": "minecraft:base_attack_damage",
                                "amount": damage, "operation": "add_value", "slot": "mainhand"},
@@ -587,6 +594,33 @@ def vastdepths(out):
             m.tag("item", f"minecraft:{kind}s" if kind != "sword" else "minecraft:swords", m.id(f"{mat}_{kind}"))
         m.put(f"data/vastdepths/tags/block/incorrect_for_{mat}_tool.json", {"values": []})
 
+        # Armour: the game's own iron armour, worn and in the hand, tinted in the metal's colour through a
+        # dyeable equipment layer (undyed, it takes `color_when_undyed`). Unbreakable too.
+        layer = [{"texture": "minecraft:iron", "dyeable": {"color_when_undyed": (0xFF000000 | colour) - (1 << 32)}}]  # a signed ARGB int
+        m.put(f"assets/vastdepths/equipment/{mat}.json", {"layers": {"humanoid": layer, "humanoid_leggings": layer}})
+        points, toughness, knockback = ARMOR_STATS[mat]
+        pieces = (("helmet", "head", "Helmet", "Capacete", ["III", "I I"], "head_armor"),
+                  ("chestplate", "chest", "Chestplate", "Peitoral", ["I I", "III", "III"], "chest_armor"),
+                  ("leggings", "legs", "Leggings", "Calças", ["III", "I I", "I I"], "leg_armor"),
+                  ("boots", "feet", "Boots", "Botas", ["I I", "I I"], "foot_armor"))
+        for (piece, slot, en_piece, pt_piece, pattern, tag), armor in zip(pieces, points):
+            def modifier(kind, amount):
+                return {"type": f"minecraft:{kind}", "id": f"minecraft:armor.{piece}", "amount": amount,
+                        "operation": "add_value", "slot": slot}
+            components = {
+                "minecraft:unbreakable": {}, "!minecraft:repairable": {},
+                "minecraft:equippable": {"slot": slot, "asset_id": m.id(mat),
+                                         "equip_sound": "minecraft:item.armor.equip_netherite"},
+                "minecraft:attribute_modifiers": [modifier("armor", float(armor)),
+                                                  modifier("armor_toughness", toughness),
+                                                  modifier("knockback_resistance", knockback)],
+            }
+            m.item(f"{mat}_{piece}", f"minecraft:netherite_{piece}", None, f"{en} {en_piece}", f"{pt_piece} de {pt}",
+                   texture=f"minecraft:item/iron_{piece}", tint=colour, components=components)
+            m.recipe(f"armor/{mat}_{piece}", {"type": "minecraft:crafting_shaped", "key": {"I": m.id(f"{mat}_ingot")},
+                                             "pattern": pattern, "result": {"id": m.id(f"{mat}_{piece}")}})
+            m.tag("item", f"minecraft:{tag}", m.id(f"{mat}_{piece}"))
+
     for mat, colour, (a, b), en, pt in SUPER_ALLOYS:
         m.ingot_family(mat, colour, en, pt, beacon=False)
         m.recipe(f"alloy/{mat}_ingot", {"type": "minecraft:crafting_shapeless",
@@ -595,7 +629,7 @@ def vastdepths(out):
 
     m.write(out, manifest("vastdepths", "Vast Depths",
                           "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores.",
-                          version="0.2.1"),
+                          version="0.3.0"),
             "stellarite_ingot", "Vast Depths")
 
 
