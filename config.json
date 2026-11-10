@@ -1,0 +1,235 @@
+{
+  "vastores": {
+    "aluminum": [
+      {
+        "count": 8,
+        "size": 9,
+        "min_y": -16,
+        "max_y": 96,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 8,
+        "size": 12,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "lead": [
+      {
+        "count": 7,
+        "size": 9,
+        "min_y": -48,
+        "max_y": 64,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 7,
+        "size": 12,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "nickel": [
+      {
+        "count": 6,
+        "size": 8,
+        "min_y": -48,
+        "max_y": 64,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 6,
+        "size": 11,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "osmium": [
+      {
+        "count": 6,
+        "size": 8,
+        "min_y": -48,
+        "max_y": 48,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 6,
+        "size": 11,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "platinum": [
+      {
+        "count": 4,
+        "size": 6,
+        "min_y": -64,
+        "max_y": 16,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 4,
+        "size": 9,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "silver": [
+      {
+        "count": 5,
+        "size": 8,
+        "min_y": -48,
+        "max_y": 32,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 5,
+        "size": 11,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "tin": [
+      {
+        "count": 9,
+        "size": 9,
+        "min_y": -16,
+        "max_y": 96,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 9,
+        "size": 12,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "uranium": [
+      {
+        "count": 4,
+        "size": 6,
+        "min_y": -64,
+        "max_y": 24,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 4,
+        "size": 9,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "zinc": [
+      {
+        "count": 7,
+        "size": 9,
+        "min_y": -32,
+        "max_y": 80,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 7,
+        "size": 12,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "iridium": [
+      {
+        "count": 4,
+        "size": 5,
+        "min_y": -64,
+        "max_y": -16,
+        "shape": "uniform"
+      }
+    ],
+    "ruby": [
+      {
+        "count": 3,
+        "size": 5,
+        "min_y": -32,
+        "max_y": 32,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 3,
+        "size": 6,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "sapphire": [
+      {
+        "count": 3,
+        "size": 5,
+        "min_y": -32,
+        "max_y": 32,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 3,
+        "size": 6,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ],
+    "peridot": [
+      {
+        "count": 3,
+        "size": 5,
+        "min_y": -32,
+        "max_y": 32,
+        "shape": "trapezoid"
+      },
+      {
+        "count": 3,
+        "size": 6,
+        "min_y": -64,
+        "max_y": 0,
+        "shape": "uniform"
+      }
+    ]
+  },
+  "vastdepths": {
+    "stellarite": [
+      {
+        "count": 5,
+        "size": 6,
+        "min_y": -64,
+        "max_y": -32,
+        "shape": "uniform"
+      }
+    ],
+    "infernium": [
+      {
+        "count": 3,
+        "size": 4,
+        "min_y": 8,
+        "max_y": 40,
+        "shape": "uniform"
+      }
+    ],
+    "voidium": [
+      {
+        "count": 3,
+        "size": 4,
+        "min_y": 10,
+        "max_y": 80,
+        "shape": "uniform"
+      }
+    ]
+  },
+  "_info": "Ore veins per material. Each vein: count (veins per chunk, 0 turns it off), size (blocks per vein), min_y/max_y, shape (trapezoid: most in the middle; uniform: even). Edit, then run apply.sh and restart the game. Only new chunks get the change."
+}
