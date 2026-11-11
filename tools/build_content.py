@@ -318,7 +318,7 @@ def veins(ns, mat):
     return _config[ns][mat]
 
 
-def manifest(mod_id, name, description, version="0.4.0"):
+def manifest(mod_id, name, description, version="0.4.1"):
     return (f'id = "{mod_id}"\nname = "{name}"\nversion = "{version}"\ndescription = "{description}"\n'
             'authors = ["voltzz900"]\napi = "0.2"\nside = "both"\ncapabilities = ["registries"]\n')
 
@@ -475,7 +475,7 @@ def vastdepths(out):
 
     m.write(out, manifest("vastdepths", "Vast Depths",
                           "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores.",
-                          version="0.4.0"),
+                          version="0.4.1"),
             "stellarite_ingot", "Vast Depths")
 
 

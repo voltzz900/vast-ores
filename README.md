@@ -10,7 +10,7 @@ Two content mods for [Horizon](https://playhorizon.dev): modded ores, metals and
 - **Nine alloys:** bronze, brass, constantan, electrum, invar, steel, enderium, lumium and signalum. Mix their dusts in
   the crafting grid, then smelt the alloy dust.
 - Dust, plate, gear and rod for iron, gold and copper too.
-- **Ore hammer** (two iron ingots, two sticks): hammer + raw ore = two dusts, hammer + ingot = a plate. It isn't used up.
+- **Ore hammer** (three iron ingots, two sticks): hammer + raw ore = two dusts, hammer + ingot = a plate. It isn't used up.
 - Ores generate in the overworld, with a second, richer layer below y 0 for players who dig deep.
 - `c:` convention tags (`c:ingots/tin`, `c:dusts/bronze`...) for other mods' recipes.
 
