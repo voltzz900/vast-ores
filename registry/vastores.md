@@ -1,6 +1,6 @@
 # Registry page: Vast Ores
 
-- **File:** `vastores-0.4.0.hmod` (release v0.4.0)
+- **File:** `vastores-0.4.1.hmod` (release v0.4.1)
 - **Icon:** `icons/vastores.png`
 - **Name:** Vast Ores
 - **Summary:** Ten metals, three gems and nine alloys with dusts, plates, gears, rods and an ore hammer, generated in the overworld.

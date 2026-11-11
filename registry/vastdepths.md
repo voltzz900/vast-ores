@@ -1,6 +1,6 @@
 # Registry page: Vast Depths
 
-- **File:** `vastdepths-0.4.0.hmod` (release v0.4.0)
+- **File:** `vastdepths-0.4.1.hmod` (release v0.4.1)
 - **Icon:** `icons/vastdepths.png`
 - **Name:** Vast Depths
 - **Summary:** Stellarite, infernium and voidium: end-game metals from the deep overworld, the Nether and the End, with tools and alloys. Needs Vast Ores.
