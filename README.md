@@ -25,6 +25,9 @@ Two content mods for [Horizon](https://playhorizon.dev): modded ores, metals and
 Each has the full set of parts, plus a pickaxe, axe, shovel and sword (ingots and blaze rods). Three alloys take one ingot
 of each metal and a netherite ingot.
 
+With the Iron Furnaces port (`ironfurnaces`), the three metals make its top furnace tiers, and Vast Depths names them
+after them: the Stellarite, Infernium and Voidium Furnaces and their upgrades.
+
 ## Ore generation
 
 The numbers are in `config.json`: for each material, a list of veins with `count` (veins per chunk, 0 turns one off),

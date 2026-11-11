@@ -473,9 +473,21 @@ def vastdepths(out):
                                         "ingredients": [m.id(f"{a}_ingot"), m.id(f"{b}_ingot"), "minecraft:netherite_ingot"],
                                         "result": {"count": 2, "id": m.id(f"{mat}_ingot")}})
 
+    # Iron Furnaces' modded tiers take these metals (Joeypc6's port reads `c:ingots/stellarite` and the others for its
+    # allthemodium, vibranium and unobtainium furnaces): with Vast Depths they carry its metals' names.
+    for tier, prev, mat, en, pt, prev_en, prev_pt in (
+            ("allthemodium", "netherite", "stellarite", "Stellarite", "Stellarite", "Netherite", "Netherite"),
+            ("vibranium", "allthemodium", "infernium", "Infernium", "Infernium", "Stellarite", "Stellarite"),
+            ("unobtainium", "vibranium", "voidium", "Voidium", "Voidium", "Infernium", "Infernium")):
+        for kind in ("item", "block", "container"):
+            m.lang_en[f"{kind}.ironfurnaces.{tier}_furnace"] = f"{en} Furnace"
+            m.lang_pt[f"{kind}.ironfurnaces.{tier}_furnace"] = f"Fornalha de {pt}"
+        m.lang_en[f"item.ironfurnaces.upgrade_{tier}"] = f"{prev_en} to {en} Furnace Upgrade"
+        m.lang_pt[f"item.ironfurnaces.upgrade_{tier}"] = f"Melhoria de Fornalha: {prev_pt} para {pt}"
+
     m.write(out, manifest("vastdepths", "Vast Depths",
                           "Stellarite, infernium and voidium: three end-game metals from the deep overworld, the Nether and the End, with their tools and alloys. Needs Vast Ores.",
-                          version="0.4.1"),
+                          version="0.4.2"),
             "stellarite_ingot", "Vast Depths")
 
 

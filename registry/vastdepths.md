@@ -1,6 +1,6 @@
 # Registry page: Vast Depths
 
-- **File:** `vastdepths-0.4.1.hmod` (release v0.4.1)
+- **File:** `vastdepths-0.4.2.hmod` (release v0.4.2)
 - **Icon:** `icons/vastdepths.png`
 - **Name:** Vast Depths
 - **Summary:** Stellarite, infernium and voidium: end-game metals from the deep overworld, the Nether and the End, with tools and alloys. Needs Vast Ores.
@@ -31,5 +31,6 @@ A content mod: data only, nothing to build. **Needs Vast Ores** (its ore hammer 
 | Voidium | 30 | 32 | 16 | 34 | 32 |
 
 - Three alloys, each from one ingot of two metals and a netherite ingot.
+- With the Iron Furnaces port, the three metals make its top furnace tiers, named after them here: the Stellarite, Infernium and Voidium Furnaces and their upgrades.
 
 Inspired by Allthemodium by the All The Mods team; a clean-room work with no code, data or art from it, not affiliated with or endorsed by All The Mods.
